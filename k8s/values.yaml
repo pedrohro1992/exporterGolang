@@ -1,0 +1,43 @@
+replicaCount: 1
+image:
+  repository: opedroramos/exporter
+  pullPolicy: IfNotPresent
+  tag: "1.0"
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+service:
+  type: ClusterIP
+  port: 7788
+livenessProbe:
+  path: /metrics
+readinessProbe:
+  path: /metrics
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: localhost
+      paths:
+        - path: /metrics
+          pathType: ImplementationSpecific
+  tls: []
+resources: {}
+autoscaling:
+  enabled: false
+
+serviceMonitor:
+  enabled: true
+  scrapeInterval: 10s
+  labels: 
+    release: prometheus
+    jobLabel: golang-exporter
+  annotations: {}
